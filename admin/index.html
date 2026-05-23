@@ -72,7 +72,7 @@ async function start(){
   if(!d||!Array.isArray(d.mains)) d={mains:[],veg:[],toppings:[],extras:[],promos:[]};
   // normalizar a forma plana editable
   const flat=arr=>(arr||[]).map(it=>({n:it.n||'',d:it.d||'',img:it.img||'',pollo:it.p?.Pollo??'',carne:it.p?.Carne??'',bbq:it.p?.BBQ??'',single:it.single??''}));
-  state={ mains:flat(d.mains), veg:flat(d.veg), toppings:(d.toppings||[]).map(x=>({n:x[0],p:x[1]})), extras:(d.extras||[]).map(x=>({n:x[0],p:x[1]})), promos:(d.promos||[]).map(p=>({t:p.t||'',d:p.d||'',price:p.price||'',cur:p.cur||'Bs',ico:p.ico||'🌮'})) };
+  state={ mains:flat(d.mains), veg:flat(d.veg), toppings:(d.toppings||[]).map(x=>({n:x[0],p:x[1]})), extras:(d.extras||[]).map(x=>({n:x[0],p:x[1]})), promos:(d.promos||[]).map(p=>({t:p.t||'',d:p.d||'',price:p.price||'',cur:p.cur||'Bs',ico:p.ico||'🌮',img:p.img||''})) };
   renderAll();
 }
 
@@ -151,7 +151,7 @@ function build(){
   return {
     mains:state.mains.map(dishOut), veg:state.veg.map(dishOut),
     toppings:state.toppings.map(it=>[it.n,num(it.p)]), extras:state.extras.map(it=>[it.n,num(it.p)]),
-    promos:state.promos.map(it=>({t:it.t,d:it.d,price:it.price,cur:it.cur,ico:it.ico})),
+    promos:state.promos.map(it=>{const o={t:it.t,d:it.d,price:it.price,cur:it.cur,ico:it.ico};if(it.img)o.img=it.img;return o;}),
   };
 }
 async function save(){
