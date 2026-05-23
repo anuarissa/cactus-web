@@ -245,6 +245,26 @@
   </div>
 </footer>
 
+<!-- ===== CARRITO ===== -->
+<button id="cart-fab" class="fixed bottom-5 right-5 z-40 hidden items-center gap-2 rounded-full bg-cactus text-cream pl-4 pr-5 py-3 shadow-soft hover:bg-cactus-deep active:scale-95 transition">
+  <span class="relative"><i data-lucide="shopping-bag" class="w-6 h-6"></i><span id="cart-count" class="absolute -top-2.5 -right-2.5 bg-gold text-cactus-ink text-[11px] font-extrabold rounded-full w-5 h-5 grid place-items-center">0</span></span>
+  <span id="cart-total" class="font-extrabold text-sm">0 Bs</span>
+</button>
+<div id="cart-ov" class="fixed inset-0 z-50 bg-black/40 hidden" onclick="if(event.target===this)toggleCart(false)">
+  <aside class="absolute right-0 top-0 h-full w-full max-w-md bg-sand shadow-2xl flex flex-col">
+    <div class="p-5 bg-cactus-deep text-cream flex items-center justify-between">
+      <h3 class="serif text-xl font-extrabold">Tu pedido 🌵</h3>
+      <button onclick="toggleCart(false)" class="p-1.5 rounded-lg hover:bg-cream/10" aria-label="Cerrar"><i data-lucide="x" class="w-5 h-5"></i></button>
+    </div>
+    <div id="cart-items" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
+    <div class="p-5 border-t border-cactus/10 bg-cream">
+      <div class="flex justify-between items-center mb-3"><span class="font-bold text-cactus-deep">Total</span><span id="cart-grand" class="serif text-2xl font-extrabold text-cactus-deep">0 Bs</span></div>
+      <a id="cart-wa" href="#" target="_blank" rel="noopener" class="btn w-full flex items-center justify-center gap-2 rounded-full bg-gold text-cactus-ink py-3.5 font-extrabold"><i data-lucide="message-circle" class="w-5 h-5"></i> Pedir por WhatsApp</a>
+      <p class="text-center text-xs text-cactus-deep/50 mt-2">Te confirmamos por WhatsApp. Toppings y extras los sumás en el chat.</p>
+    </div>
+  </aside>
+</div>
+
 <style>@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}</style>
 <script>
 /* ===== CONFIG editable — completá redes/Pedí online reales ===== */
@@ -286,42 +306,80 @@ const DEFAULTS={
   {t:'Jueves de Burritos',d:'Burritos de pollo',price:'2x50',cur:CUR,ico:'🌯'},
  ],
 };
+const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
 function priceCols(it){
   if(it.single!=null && it.single!=='') return `<span class="price-tag text-gold-deep font-extrabold whitespace-nowrap">${it.single} ${CUR}</span>`;
   const cols=Object.entries(it.p||{}).filter(([k,v])=>v!=null&&v!=='');
   if(!cols.length) return '';
-  return `<span class="price-tag font-extrabold text-cactus whitespace-nowrap text-sm">${cols.map(([k,v])=>`<span class="inline-block min-w-[42px] text-right">${v}</span>`).join('<span class="text-cactus/30"> · </span>')}</span>`;
+  return `<span class="price-tag font-extrabold text-cactus whitespace-nowrap text-sm">${cols.map(([k,v])=>`<span class="inline-block min-w-[40px] text-right">${v}</span>`).join('<span class="text-cactus/30"> · </span>')}</span>`;
+}
+function addBtns(it){
+  if(it.single!=null && it.single!=='') return `<button data-add data-n="${esc(it.n)}" data-p="${it.single}" class="btn mt-2.5 inline-flex items-center gap-1 text-xs bg-cactus text-cream px-3.5 py-1.5 font-bold">＋ Agregar · ${it.single} Bs</button>`;
+  const cols=Object.entries(it.p||{}).filter(([k,v])=>v!=null&&v!=='');
+  if(!cols.length) return '';
+  return `<div class="flex flex-wrap gap-1.5 mt-2.5">${cols.map(([k,v])=>`<button data-add data-n="${esc(it.n)}" data-v="${k}" data-p="${v}" class="btn text-xs bg-cactus/10 text-cactus hover:bg-cactus hover:text-cream px-2.5 py-1.5 font-bold">＋ ${k} · ${v}</button>`).join('')}</div>`;
 }
 function itemCard(it){
-  const thumb = it.img ? `<img src="${it.img}" alt="${it.n}" class="w-16 h-16 rounded-xl object-cover shrink-0" loading="lazy"/>` : '';
-  return `<div class="rounded-2xl bg-cream border border-cactus/10 shadow-card p-4 flex items-start justify-between gap-4 hover:-translate-y-0.5 transition">
-   <div class="flex gap-3 items-start min-w-0">${thumb}<div class="min-w-0"><h4 class="serif font-extrabold text-cactus-deep text-lg leading-tight">${it.n}</h4><p class="text-cactus-deep/55 text-sm mt-1 leading-snug">${it.d||''}</p></div></div>
-   <div class="text-right shrink-0 pt-1">${priceCols(it)}</div>
+  const thumb = it.img ? `<img src="${it.img}" alt="${esc(it.n)}" class="w-20 h-20 md:w-24 md:h-24 rounded-xl object-cover shrink-0" loading="lazy"/>` : '';
+  return `<div class="rounded-2xl bg-cream border border-cactus/10 shadow-card p-3.5 flex gap-3.5 hover:-translate-y-0.5 transition">
+   ${thumb}
+   <div class="flex-1 min-w-0">
+     <div class="flex items-start justify-between gap-3"><h4 class="serif font-extrabold text-cactus-deep text-lg leading-tight">${esc(it.n)}</h4><div class="shrink-0 pt-0.5">${priceCols(it)}</div></div>
+     <p class="text-cactus-deep/55 text-sm mt-0.5 leading-snug">${esc(it.d||'')}</p>
+     ${addBtns(it)}
+   </div>
  </div>`;
 }
-const li=([n,p])=>`<li class="flex justify-between py-2"><span>${n}</span><span class="price-tag font-bold">${p} ${CUR}</span></li>`;
+const li=([n,p])=>`<li class="flex justify-between items-center py-2 gap-3"><span>${esc(n)}</span><span class="flex items-center gap-2"><span class="price-tag font-bold whitespace-nowrap">${p} ${CUR}</span><button data-add data-n="${esc(n)}" data-p="${p}" class="btn w-6 h-6 rounded-full bg-gold text-cactus-ink font-bold leading-none grid place-items-center shrink-0" title="Agregar">＋</button></span></li>`;
 function renderAll(d){
   document.getElementById('mains').innerHTML=(d.mains||[]).map(itemCard).join('');
   document.getElementById('veg').innerHTML=(d.veg||[]).map(itemCard).join('');
   document.getElementById('toppings').innerHTML=(d.toppings||[]).map(li).join('');
   document.getElementById('extras').innerHTML=(d.extras||[]).map(li).join('');
   document.getElementById('promos-grid').innerHTML=(d.promos||[]).map(p=>`
-   <div class="in rounded-3xl mesh text-cream p-7 relative overflow-hidden shadow-soft">
+   <div class="in rounded-3xl mesh text-cream relative overflow-hidden shadow-soft flex">
      <div class="absolute inset-0 grain opacity-[0.06]"></div>
-     <div class="relative flex items-center justify-between gap-4">
-       <div><div class="text-4xl">${p.ico||'🌵'}</div><h3 class="serif text-2xl font-extrabold mt-2">${p.t}</h3><p class="text-cream/75 mt-1">${p.d||''}</p></div>
-       <div class="text-center shrink-0"><div class="serif text-5xl font-extrabold text-gold leading-none">${p.price||''}</div><div class="text-gold/80 font-bold text-sm">${p.cur||CUR}</div></div>
+     <div class="relative p-6 flex-1 min-w-0">
+       <h3 class="serif text-2xl font-extrabold">${esc(p.t)}</h3><p class="text-cream/75 mt-1">${esc(p.d||'')}</p>
+       <div class="serif text-4xl font-extrabold text-gold mt-3 leading-none">${esc(p.price||'')} <span class="text-lg">${esc(p.cur||CUR)}</span></div>
+       <a href="${waUrl}" target="_blank" rel="noopener" class="mt-4 inline-flex items-center gap-2 rounded-full bg-gold px-5 py-2.5 font-extrabold text-cactus-ink hover:-translate-y-0.5 transition"><i data-lucide="message-circle" class="w-4 h-4"></i> Pedí esta promo</a>
      </div>
-     <a href="${waUrl}" target="_blank" rel="noopener" class="relative mt-5 inline-flex items-center gap-2 rounded-full bg-gold px-5 py-2.5 font-extrabold text-cactus-ink hover:-translate-y-0.5 transition"><i data-lucide="message-circle" class="w-4 h-4"></i> Pedí esta promo</a>
+     ${p.img?`<div class="relative w-28 sm:w-40 shrink-0 self-stretch"><img src="${p.img}" alt="${esc(p.t)}" class="absolute inset-0 w-full h-full object-cover" loading="lazy"></div>`:''}
    </div>`).join('');
   if(window.lucide) lucide.createIcons();
 }
+
+/* ----- CARRITO ----- */
+let cart=[]; try{ cart=JSON.parse(localStorage.getItem('cactus-cart')||'[]'); }catch(e){}
+function saveCart(){ try{localStorage.setItem('cactus-cart',JSON.stringify(cart));}catch(e){} }
+function addToCart(n,v,p){ const key=n+'|'+(v||''); const e=cart.find(x=>x.key===key); if(e)e.qty++; else cart.push({key,n,v:v||'',p:Number(p),qty:1}); saveCart(); renderCart(); toggleCart(true); }
+function chgQty(key,dq){ const e=cart.find(x=>x.key===key); if(!e)return; e.qty+=dq; if(e.qty<=0)cart=cart.filter(x=>x.key!==key); saveCart(); renderCart(); }
+function toggleCart(open){ document.getElementById('cart-ov').classList.toggle('hidden',!open); if(open&&window.lucide)lucide.createIcons(); }
+function renderCart(){
+  const count=cart.reduce((s,x)=>s+x.qty,0), total=cart.reduce((s,x)=>s+x.p*x.qty,0);
+  document.getElementById('cart-count').textContent=count;
+  document.getElementById('cart-total').textContent=total+' Bs';
+  document.getElementById('cart-grand').textContent=total+' Bs';
+  const fab=document.getElementById('cart-fab'); fab.classList.toggle('hidden',count===0); fab.classList.toggle('flex',count>0);
+  document.getElementById('cart-items').innerHTML = cart.length ? cart.map(x=>`
+    <div class="bg-white rounded-xl p-3 flex items-center gap-3 shadow-card">
+      <div class="flex-1 min-w-0"><div class="font-bold text-cactus-deep leading-tight">${esc(x.n)}${x.v?` · <span class="text-cactus">${esc(x.v)}</span>`:''}</div><div class="text-sm text-cactus-deep/55">${x.p} Bs c/u</div></div>
+      <div class="flex items-center gap-2"><button onclick="chgQty('${x.key.replace(/'/g,"\\'")}',-1)" class="w-7 h-7 rounded-full bg-cactus/10 text-cactus font-bold grid place-items-center">−</button><span class="w-5 text-center font-bold">${x.qty}</span><button onclick="chgQty('${x.key.replace(/'/g,"\\'")}',1)" class="w-7 h-7 rounded-full bg-cactus/10 text-cactus font-bold grid place-items-center">＋</button></div>
+    </div>`).join('') : '<p class="text-center text-cactus-deep/50 py-12">Tu pedido está vacío.<br>Elegí algo del menú 🌵</p>';
+  const lines=cart.map(x=>`• ${x.qty}x ${x.n}${x.v?` (${x.v})`:''} — ${x.p*x.qty} Bs`).join('\n');
+  const msg=`Hola Cactus! 🌵 Quiero pedir:\n${lines}\n\nTotal: ${total} Bs`;
+  document.getElementById('cart-wa').href=`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`;
+  if(window.lucide) lucide.createIcons();
+}
+document.getElementById('cart-fab').onclick=()=>toggleCart(true);
+document.addEventListener('click',e=>{ const b=e.target.closest('[data-add]'); if(b){ addToCart(b.dataset.n,b.dataset.v,b.dataset.p); } });
+
 async function loadContent(){
   let d=DEFAULTS;
   try{ const r=await fetch('/api/content'); if(r.ok){const j=await r.json(); if(j&&Array.isArray(j.mains)&&j.mains.length) d=j;} }catch(e){}
   renderAll(d);
 }
-loadContent();
+loadContent(); renderCart();
 
 /* ===== Instagram feed (serverless /api/ig-feed) con fallback ===== */
 const FALLBACK_IG = ['combo','tacos','nachos','burrito','quesadilla','bowl'].map(f=>`assets/food/${f}.jpg`);

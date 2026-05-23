@@ -16,8 +16,9 @@ export default async function handler(req, res) {
     });
     if (!r.ok) throw new Error('github ' + r.status);
     const data = await r.json();
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
     res.setHeader('Cache-Control', 'no-store');
-    return res.status(200).json(data);
+    return res.status(200).end(JSON.stringify(data));
   } catch (e) {
     return res.status(200).json({ error: String(e) });
   }
