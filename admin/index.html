@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex" />
+<title>Cactus · Panel de gerentes</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>tailwind.config={theme:{extend:{colors:{cactus:{DEFAULT:'#157F5E',deep:'#0E4D38',ink:'#0B2E22'},gold:{DEFAULT:'#E8B53A',deep:'#C8902A'},cream:'#F6EFDD',sand:'#FBF7EC'},fontFamily:{serif:['Fraunces','serif'],sans:['Manrope','sans-serif']}}}}</script>
+<style>body{font-family:Manrope,sans-serif;background:#FBF7EC;color:#0B2E22}h1,h2,.serif{font-family:Fraunces,serif}
+.inp{width:100%;border:1px solid rgba(21,127,94,.2);border-radius:.6rem;padding:.5rem .7rem;font-size:.9rem;background:#fff}
+.inp:focus{outline:none;border-color:#157F5E;box-shadow:0 0 0 3px rgba(21,127,94,.12)}
+.btn{border-radius:9999px;font-weight:700;transition:transform .1s} .btn:active{transform:scale(.96)}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="gate" class="fixed inset-0 z-50 grid place-items-center bg-cactus-deep p-5">
+  <div class="w-full max-w-sm bg-cream rounded-3xl shadow-2xl p-7 text-center">
+    <div class="text-5xl">🌵</div>
+    <h1 class="serif text-2xl font-extrabold text-cactus-deep mt-2">Panel de gerentes</h1>
+    <p class="text-cactus-deep/60 text-sm mt-1">Cactus Mexican Grill</p>
+    <input id="pass" type="password" placeholder="Contraseña" class="inp mt-5 text-center" @keydown.enter="">
+    <button id="enter" class="btn w-full mt-3 bg-cactus text-cream py-3">Entrar</button>
+    <p id="gate-err" class="text-red-600 text-sm mt-2 hidden">Contraseña incorrecta</p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" class="hidden">
+  <header class="sticky top-0 z-40 bg-cream/95 backdrop-blur border-b border-cactus/10">
+    <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-2"><span class="text-2xl">🌵</span><b class="serif text-cactus-deep">Panel · Cactus</b></div>
+      <div class="flex items-center gap-2">
+        <span id="status" class="text-xs text-cactus-deep/50"></span>
+        <button id="save" class="btn bg-gold text-cactus-ink px-5 py-2">Guardar</button>
+        <button id="logout" class="btn text-cactus-deep/60 px-2 py-2 text-sm">Salir</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-4 py-6 space-y-8">
+    <p class="text-sm text-cactus-deep/60 bg-white rounded-xl p-3 border border-cactus/10">Editá el menú y las promos. Tocá <b>Guardar</b> y los cambios aparecen en la web al instante. Las fotos pueden tardar unos segundos.</p>
+
+    <section><div class="flex items-center justify-between mb-3"><h2 class="serif text-xl font-extrabold text-cactus-deep">Especialidades</h2><button data-add="mains" class="btn bg-cactus/10 text-cactus px-3 py-1.5 text-sm">+ Plato</button></div><div id="mains" class="space-y-3"></div></section>
+    <section><div class="flex items-center justify-between mb-3"><h2 class="serif text-xl font-extrabold text-cactus-deep">Vegetariano</h2><button data-add="veg" class="btn bg-cactus/10 text-cactus px-3 py-1.5 text-sm">+ Plato</button></div><div id="veg" class="space-y-3"></div></section>
+    <section><div class="flex items-center justify-between mb-3"><h2 class="serif text-xl font-extrabold text-cactus-deep">Toppings</h2><button data-add="toppings" class="btn bg-cactus/10 text-cactus px-3 py-1.5 text-sm">+ Topping</button></div><div id="toppings" class="space-y-2"></div></section>
+    <section><div class="flex items-center justify-between mb-3"><h2 class="serif text-xl font-extrabold text-cactus-deep">Extras</h2><button data-add="extras" class="btn bg-cactus/10 text-cactus px-3 py-1.5 text-sm">+ Extra</button></div><div id="extras" class="space-y-2"></div></section>
+    <section><div class="flex items-center justify-between mb-3"><h2 class="serif text-xl font-extrabold text-cactus-deep">Promos</h2><button data-add="promos" class="btn bg-cactus/10 text-cactus px-3 py-1.5 text-sm">+ Promo</button></div><div id="promos" class="space-y-3"></div></section>
+
+    <button id="save2" class="btn w-full bg-gold text-cactus-ink py-3.5 font-extrabold">Guardar cambios</button>
+  </main>
+</div>
+
+<script>
+const RAW='https://raw.githubusercontent.com/anuarissa/cactus-web/master/assets/menu/';
+let PASS='', state=null, pendingImages=[];
+const $=s=>document.querySelector(s);
+const slug=s=>(s||'item').toLowerCase().normalize('NFD').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,30);
+
+// ---- login ----
+$('#enter').onclick=()=>{ PASS=$('#pass').value.trim(); if(!PASS) return; sessionStorage.setItem('cap',PASS); start(); };
+$('#pass').addEventListener('keydown',e=>{if(e.key==='Enter')$('#enter').click();});
+$('#logout').onclick=()=>{ sessionStorage.removeItem('cap'); location.reload(); };
+
+async function start(){
+  $('#gate').classList.add('hidden'); $('#app').classList.remove('hidden');
+  let d=null; try{ const r=await fetch('/api/content'); if(r.ok) d=await r.json(); }catch(e){}
+  if(!d||!Array.isArray(d.mains)) d={mains:[],veg:[],toppings:[],extras:[],promos:[]};
+  // normalizar a forma plana editable
+  const flat=arr=>(arr||[]).map(it=>({n:it.n||'',d:it.d||'',img:it.img||'',pollo:it.p?.Pollo??'',carne:it.p?.Carne??'',bbq:it.p?.BBQ??'',single:it.single??''}));
+  state={ mains:flat(d.mains), veg:flat(d.veg), toppings:(d.toppings||[]).map(x=>({n:x[0],p:x[1]})), extras:(d.extras||[]).map(x=>({n:x[0],p:x[1]})), promos:(d.promos||[]).map(p=>({t:p.t||'',d:p.d||'',price:p.price||'',cur:p.cur||'Bs',ico:p.ico||'🌮'})) };
+  renderAll();
+}
+
+function dish(it,sec,i){
+  return `<div class="bg-white rounded-2xl border border-cactus/10 p-4 space-y-2">
+    <div class="flex gap-3">
+      <label class="shrink-0 cursor-pointer">
+        <div class="w-16 h-16 rounded-xl bg-sand border border-cactus/10 overflow-hidden grid place-items-center text-cactus/40 text-xs">${it.img?`<img src="${it.img}" class="w-full h-full object-cover">`:'Foto'}</div>
+        <input type="file" accept="image/*" class="hidden" data-img="${sec}:${i}">
+      </label>
+      <input class="inp" placeholder="Nombre" value="${esc(it.n)}" data-f="${sec}:${i}:n">
+    </div>
+    <textarea class="inp" rows="2" placeholder="Descripción" data-f="${sec}:${i}:d">${esc(it.d)}</textarea>
+    <div class="grid grid-cols-4 gap-2">
+      <input class="inp" inputmode="numeric" placeholder="Pollo" value="${it.pollo}" data-f="${sec}:${i}:pollo">
+      <input class="inp" inputmode="numeric" placeholder="Carne" value="${it.carne}" data-f="${sec}:${i}:carne">
+      <input class="inp" inputmode="numeric" placeholder="BBQ" value="${it.bbq}" data-f="${sec}:${i}:bbq">
+      <input class="inp" inputmode="numeric" placeholder="Único" value="${it.single}" data-f="${sec}:${i}:single">
+    </div>
+    <div class="text-right"><button class="text-red-500 text-sm font-semibold" data-del="${sec}:${i}">Eliminar</button></div>
+  </div>`;
+}
+function row(it,sec,i){
+  return `<div class="bg-white rounded-xl border border-cactus/10 p-2.5 flex gap-2 items-center">
+    <input class="inp" placeholder="Nombre" value="${esc(it.n)}" data-f="${sec}:${i}:n">
+    <input class="inp w-24" inputmode="numeric" placeholder="Bs" value="${it.p}" data-f="${sec}:${i}:p">
+    <button class="text-red-500 text-sm font-semibold px-1" data-del="${sec}:${i}">✕</button>
+  </div>`;
+}
+function promo(it,sec,i){
+  return `<div class="bg-white rounded-2xl border border-cactus/10 p-4 grid grid-cols-2 gap-2">
+    <input class="inp" placeholder="Título" value="${esc(it.t)}" data-f="${sec}:${i}:t">
+    <input class="inp" placeholder="Emoji" value="${esc(it.ico)}" data-f="${sec}:${i}:ico">
+    <input class="inp col-span-2" placeholder="Detalle" value="${esc(it.d)}" data-f="${sec}:${i}:d">
+    <input class="inp" placeholder="Precio (ej. 2x50)" value="${esc(it.price)}" data-f="${sec}:${i}:price">
+    <input class="inp" placeholder="Moneda" value="${esc(it.cur)}" data-f="${sec}:${i}:cur">
+    <div class="col-span-2 text-right"><button class="text-red-500 text-sm font-semibold" data-del="${sec}:${i}">Eliminar</button></div>
+  </div>`;
+}
+const esc=s=>String(s??'').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+function renderAll(){
+  $('#mains').innerHTML=state.mains.map((it,i)=>dish(it,'mains',i)).join('');
+  $('#veg').innerHTML=state.veg.map((it,i)=>dish(it,'veg',i)).join('');
+  $('#toppings').innerHTML=state.toppings.map((it,i)=>row(it,'toppings',i)).join('');
+  $('#extras').innerHTML=state.extras.map((it,i)=>row(it,'extras',i)).join('');
+  $('#promos').innerHTML=state.promos.map((it,i)=>promo(it,'promos',i)).join('');
+}
+// edición delegada
+document.addEventListener('input',e=>{
+  const f=e.target.dataset.f; if(!f) return;
+  const [sec,i,key]=f.split(':'); state[sec][+i][key]=e.target.value;
+});
+document.addEventListener('change',async e=>{
+  const im=e.target.dataset.img; if(!im||!e.target.files[0]) return;
+  const [sec,i]=im.split(':'); const it=state[sec][+i];
+  const b64=await resizeToB64(e.target.files[0]);
+  const name=`${slug(it.n)}-${Date.now()}.jpg`;
+  it.img=RAW+name; it._newImg={name,dataB64:b64};
+  renderAll();
+});
+document.addEventListener('click',e=>{
+  const del=e.target.dataset.del; if(del){const [sec,i]=del.split(':'); state[sec].splice(+i,1); renderAll(); return;}
+  const add=e.target.dataset.add; if(add){
+    if(add==='mains'||add==='veg') state[add].push({n:'',d:'',img:'',pollo:'',carne:'',bbq:'',single:''});
+    else if(add==='promos') state.promos.push({t:'',d:'',price:'',cur:'Bs',ico:'🌮'});
+    else state[add].push({n:'',p:''});
+    renderAll();
+  }
+});
+
+function resizeToB64(file){return new Promise(res=>{const img=new Image();const fr=new FileReader();fr.onload=()=>{img.onload=()=>{const max=900;let{width:w,height:h}=img;if(w>h&&w>max){h=h*max/w;w=max;}else if(h>max){w=w*max/h;h=max;}const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);res(c.toDataURL('image/jpeg',.82).split(',')[1]);};img.src=fr.result;};fr.readAsDataURL(file);});}
+
+function build(){
+  const num=v=>v===''||v==null?null:Number(v);
+  const dishOut=it=>{const o={n:it.n,d:it.d}; if(it.img)o.img=it.img; if(it.single!==''&&it.single!=null){o.single=num(it.single);} else {const p={};if(it.pollo!=='')p.Pollo=num(it.pollo);if(it.carne!=='')p.Carne=num(it.carne);if(it.bbq!=='')p.BBQ=num(it.bbq);o.p=p;} return o;};
+  return {
+    mains:state.mains.map(dishOut), veg:state.veg.map(dishOut),
+    toppings:state.toppings.map(it=>[it.n,num(it.p)]), extras:state.extras.map(it=>[it.n,num(it.p)]),
+    promos:state.promos.map(it=>({t:it.t,d:it.d,price:it.price,cur:it.cur,ico:it.ico})),
+  };
+}
+async function save(){
+  $('#status').textContent='Guardando...';
+  const images=[]; [...state.mains,...state.veg].forEach(it=>{if(it._newImg)images.push(it._newImg);});
+  try{
+    const r=await fetch('/api/save',{method:'POST',headers:{'Content-Type':'application/json','x-admin-pass':PASS},body:JSON.stringify({content:build(),images})});
+    if(r.status===401){$('#status').textContent='';alert('Contraseña incorrecta. Salí y volvé a entrar.');return;}
+    const j=await r.json(); if(!r.ok||j.error) throw new Error(j.error||r.status);
+    [...state.mains,...state.veg].forEach(it=>delete it._newImg);
+    $('#status').textContent='Guardado ✓';
+    setTimeout(()=>$('#status').textContent='',4000);
+  }catch(e){$('#status').textContent='';alert('Error al guardar: '+e.message);}
+}
+$('#save').onclick=save; $('#save2').onclick=save;
+
+// auto-login si ya entró antes
+const saved=sessionStorage.getItem('cap'); if(saved){PASS=saved;start();}
+</script>
+</body>
+</html>
