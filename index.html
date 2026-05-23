@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cactus Mexican Grill · Tex-Mex a domicilio en Cochabamba</title>
+<meta name="description" content="Bowls, burritos, tacos, quesadillas y nachos Tex-Mex. Pedí por WhatsApp o Pedí online en Cochabamba. Mirá el menú de Cactus Mexican Grill." />
+<meta property="og:title" content="Cactus Mexican Grill — Tex-Mex a tu casa" />
+<meta property="og:description" content="Antojo Tex-Mex, directo a tu casa. Menú, promos y delivery en Cochabamba." />
+<meta property="og:image" content="assets/food/hero.jpg" />
+<meta property="og:type" content="website" />
+<link rel="icon" href="assets/brand/don-base.png" />
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<script>
+  tailwind.config = {
+    theme: { extend: {
+      colors: {
+        cactus: { DEFAULT:'#157F5E', deep:'#0E4D38', ink:'#0B2E22' },
+        gold: { DEFAULT:'#E8B53A', deep:'#C8902A' },
+        cream: '#F6EFDD', sand:'#FBF7EC',
+      },
+      fontFamily: { serif:['Fraunces','Georgia','serif'], sans:['Manrope','system-ui','sans-serif'] },
+      boxShadow: { soft:'0 18px 50px -12px rgba(14,77,56,.35)', card:'0 12px 32px -10px rgba(14,77,56,.25)' },
+    }},
+  };
+</script>
+<style>
+  body{font-family:'Manrope',system-ui,sans-serif;background:#FBF7EC;color:#0B2E22}
+  h1,h2,h3,.serif{font-family:'Fraunces','Georgia',serif}
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+  .grain{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.4'/%3E%3C/svg%3E")}
+  .mesh{background:radial-gradient(60% 80% at 15% 0%, rgba(21,127,94,.55), transparent 60%), radial-gradient(50% 60% at 100% 30%, rgba(232,181,58,.18), transparent 55%), #0B2E22}
+  .price-tag{font-variant-numeric:tabular-nums}
+</style>
+</head>
+<body x-data="{nav:false}" class="antialiased">
+
+<!-- ===== NAV ===== -->
+<header class="fixed top-0 inset-x-0 z-50">
+  <nav class="mx-auto max-w-6xl m-3 px-4 sm:px-5 py-2.5 rounded-2xl bg-cream/90 backdrop-blur border border-cactus/10 shadow-card flex items-center justify-between">
+    <a href="#top" class="flex items-center gap-2.5">
+      <span class="h-9 w-9 rounded-full bg-cactus/10 overflow-hidden grid place-items-center ring-1 ring-cactus/15"><img src="assets/brand/don-base.png" alt="Don Cactus" class="h-full w-full object-cover scale-110"/></span>
+      <span class="serif text-cactus-deep font-extrabold text-lg tracking-tight">Cactus<span class="text-gold">.</span></span>
+    </a>
+    <div class="hidden md:flex items-center gap-7 text-[13px] font-700 font-semibold text-cactus-deep/80">
+      <a href="#menu" class="hover:text-cactus transition-colors">Menú</a>
+      <a href="#promos" class="hover:text-cactus transition-colors">Promos</a>
+      <a href="#nosotros" class="hover:text-cactus transition-colors">Nosotros</a>
+      <a href="#galeria" class="hover:text-cactus transition-colors">Galería</a>
+      <a href="#instagram" class="hover:text-cactus transition-colors">Instagram</a>
+    </div>
+    <div class="flex items-center gap-2">
+      <a id="wa-nav" href="#" target="_blank" rel="noopener" class="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-cactus px-4 py-2 text-sm font-bold text-cream shadow-card hover:bg-cactus-deep active:scale-95 transition">
+        <i data-lucide="message-circle" class="w-4 h-4"></i> Pedí
+      </a>
+      <button @click="nav=!nav" class="md:hidden p-2 rounded-lg text-cactus-deep hover:bg-cactus/10" aria-label="Menú"><i data-lucide="menu" class="w-6 h-6"></i></button>
+    </div>
+  </nav>
+  <!-- mobile -->
+  <div x-show="nav" x-transition.opacity @click="nav=false" class="md:hidden mx-4 mt-1 rounded-2xl bg-cream shadow-soft border border-cactus/10 p-4 flex flex-col gap-1 text-cactus-deep font-semibold" style="display:none">
+    <a href="#menu" class="px-3 py-2 rounded-lg hover:bg-cactus/10">Menú</a>
+    <a href="#promos" class="px-3 py-2 rounded-lg hover:bg-cactus/10">Promos</a>
+    <a href="#nosotros" class="px-3 py-2 rounded-lg hover:bg-cactus/10">Nosotros</a>
+    <a href="#galeria" class="px-3 py-2 rounded-lg hover:bg-cactus/10">Galería</a>
+    <a href="#instagram" class="px-3 py-2 rounded-lg hover:bg-cactus/10">Instagram</a>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section id="top" class="relative mesh text-cream overflow-hidden">
+  <div class="absolute inset-0 grain opacity-[0.06]"></div>
+  <div class="relative mx-auto max-w-6xl px-5 pt-32 pb-16 md:pt-40 md:pb-24 grid md:grid-cols-2 gap-10 items-center">
+    <div class="reveal">
+      <span class="inline-flex items-center gap-2 rounded-full bg-gold/15 text-gold px-3 py-1 text-xs font-bold tracking-widest uppercase">🌵 Dark kitchen · Cochabamba</span>
+      <h1 class="mt-5 text-5xl md:text-6xl font-extrabold leading-[1.02] tracking-tight">Antojo Tex-Mex,<br><span class="text-gold">directo a tu casa.</span></h1>
+      <p class="mt-5 text-cream/85 text-lg leading-relaxed max-w-md">Bowls, burritos, tacos, quesadillas y nachos. Fresco, generoso y con el sabor que engancha — sin moverte de tu sillón.</p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a id="wa-hero" href="#" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full bg-gold px-6 py-3.5 font-extrabold text-cactus-ink shadow-soft hover:-translate-y-0.5 active:scale-95 transition">
+          <i data-lucide="message-circle" class="w-5 h-5"></i> Pedí por WhatsApp
+        </a>
+        <a id="py-hero" href="#" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full bg-cream/10 border border-cream/25 px-6 py-3.5 font-bold text-cream hover:bg-cream/20 active:scale-95 transition">
+          <i data-lucide="bike" class="w-5 h-5"></i> Pedí online
+        </a>
+        <a href="#menu" class="inline-flex items-center gap-2 rounded-full px-5 py-3.5 font-bold text-cream/80 hover:text-cream transition">Ver menú <i data-lucide="arrow-down" class="w-4 h-4"></i></a>
+      </div>
+    </div>
+    <div class="reveal relative">
+      <div class="absolute -inset-6 rounded-[2rem] bg-gold/10 blur-2xl"></div>
+      <img src="assets/food/hero.jpg" alt="Spread Tex-Mex de Cactus" class="relative rounded-[1.75rem] shadow-soft ring-1 ring-cream/10 object-cover w-full aspect-[4/5] md:aspect-square"/>
+      <div class="absolute -bottom-7 -left-7 w-28 h-28 md:w-32 md:h-32 rounded-full bg-cream ring-4 ring-gold shadow-soft overflow-hidden grid place-items-center animate-[float_4s_ease-in-out_infinite]">
+        <img src="assets/brand/don-festejo.png" alt="Don Cactus" class="w-full h-full object-cover scale-105"/>
+      </div>
+    </div>
+  </div>
+  <div class="relative border-t border-cream/10 bg-cactus-ink/40">
+    <div class="mx-auto max-w-6xl px-5 py-4 grid grid-cols-3 gap-4 text-center text-cream/90">
+      <div><div class="serif text-2xl font-extrabold text-gold">100%</div><div class="text-xs uppercase tracking-wider text-cream/60">Delivery</div></div>
+      <div><div class="serif text-2xl font-extrabold text-gold">Tex-Mex</div><div class="text-xs uppercase tracking-wider text-cream/60">Auténtico</div></div>
+      <div><div class="serif text-2xl font-extrabold text-gold">3</div><div class="text-xs uppercase tracking-wider text-cream/60">Proteínas</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROMOS ===== -->
+<section id="promos" class="mx-auto max-w-6xl px-5 py-16 md:py-24">
+  <div class="reveal text-center max-w-2xl mx-auto">
+    <span class="text-gold-deep font-extrabold tracking-widest uppercase text-xs">Promos de la semana</span>
+    <h2 class="mt-2 text-4xl md:text-5xl font-extrabold tracking-tight text-cactus-deep">Tu antojo, en oferta</h2>
+  </div>
+  <div id="promos-grid" class="mt-10 grid sm:grid-cols-2 gap-5"></div>
+</section>
+
+<!-- ===== NOSOTROS ===== -->
+<section id="nosotros" class="bg-cactus-deep text-cream relative overflow-hidden">
+  <div class="absolute inset-0 grain opacity-[0.05]"></div>
+  <div class="relative mx-auto max-w-6xl px-5 py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center">
+    <div class="reveal order-2 md:order-1">
+      <img src="assets/food/bowl.jpg" alt="Burrito Bowl Cactus" class="rounded-[1.5rem] shadow-soft ring-1 ring-cream/10 object-cover w-full aspect-[4/3]"/>
+    </div>
+    <div class="reveal order-1 md:order-2">
+      <span class="text-gold font-extrabold tracking-widest uppercase text-xs">Nosotros</span>
+      <h2 class="mt-2 text-4xl md:text-5xl font-extrabold tracking-tight">Cocina Tex-Mex,<br>pensada para delivery</h2>
+      <p class="mt-5 text-cream/80 leading-relaxed">Somos una <b>dark kitchen</b> en Cochabamba: cocinamos enfocados 100% en llevarte el antojo a casa. Porciones honestas, ingredientes frescos y ese sabor Tex-Mex que da ganas con solo verlo.</p>
+      <p class="mt-3 text-cream/80 leading-relaxed">Elegí tu proteína — <b class="text-gold">Pollo, Carne o BBQ Chicken</b> — y nosotros nos encargamos del resto.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MENÚ ===== -->
+<section id="menu" class="mx-auto max-w-6xl px-5 py-16 md:py-24">
+  <div class="reveal flex flex-wrap items-end justify-between gap-4">
+    <div>
+      <span class="text-gold-deep font-extrabold tracking-widest uppercase text-xs">El menú</span>
+      <h2 class="mt-2 text-4xl md:text-5xl font-extrabold tracking-tight text-cactus-deep">Nuestro menú</h2>
+      <p class="mt-2 text-cactus-deep/60">Precios en Bs. Proteína a elección: Pollo · Carne · BBQ Chicken.</p>
+    </div>
+    <a href="menu-cactus.pdf" target="_blank" class="inline-flex items-center gap-2 rounded-full border-2 border-cactus px-5 py-2.5 font-bold text-cactus hover:bg-cactus hover:text-cream active:scale-95 transition">
+      <i data-lucide="download" class="w-4 h-4"></i> Descargar PDF
+    </a>
+  </div>
+
+  <div class="mt-10 grid lg:grid-cols-3 gap-6 items-start">
+    <div class="lg:col-span-2 reveal">
+      <h3 class="serif text-2xl font-extrabold text-cactus-deep mb-4">Especialidades</h3>
+      <div class="grid gap-3 px-1 mb-3 text-[11px] font-bold uppercase tracking-wider text-cactus-deep/45 grid-cols-[1fr_auto]">
+        <span>Plato</span><span class="hidden sm:block text-right">Pollo · Carne · BBQ</span>
+      </div>
+      <div id="mains" class="space-y-3"></div>
+
+      <h3 class="serif text-2xl font-extrabold text-cactus-deep mt-10 mb-4">Vegetariano 🌱</h3>
+      <div id="veg" class="space-y-3"></div>
+    </div>
+
+    <div class="reveal space-y-6">
+      <div class="rounded-2xl bg-cream border border-cactus/10 shadow-card p-5">
+        <h3 class="serif text-xl font-extrabold text-cactus-deep mb-3">Toppings</h3>
+        <ul id="toppings" class="text-sm divide-y divide-cactus/5"></ul>
+      </div>
+      <div class="rounded-2xl bg-cactus-deep text-cream shadow-card p-5">
+        <h3 class="serif text-xl font-extrabold text-gold mb-3">Extras</h3>
+        <ul id="extras" class="text-sm divide-y divide-cream/10"></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GALERÍA ===== -->
+<section id="galeria" class="bg-sand py-16 md:py-24">
+  <div class="mx-auto max-w-6xl px-5">
+    <div class="reveal text-center max-w-2xl mx-auto mb-10">
+      <span class="text-gold-deep font-extrabold tracking-widest uppercase text-xs">Galería</span>
+      <h2 class="mt-2 text-4xl md:text-5xl font-extrabold tracking-tight text-cactus-deep">Mirá lo que te espera</h2>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+      <div class="reveal relative group overflow-hidden rounded-2xl aspect-square col-span-2 row-span-2"><img src="assets/food/combo.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Combo Cactus For All"/><div class="absolute inset-0 bg-gradient-to-t from-cactus-ink/70 to-transparent"></div><span class="absolute bottom-3 left-4 text-cream font-bold">Cactus For All</span></div>
+      <div class="reveal relative group overflow-hidden rounded-2xl aspect-square"><img src="assets/food/tacos.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Tacos"/></div>
+      <div class="reveal relative group overflow-hidden rounded-2xl aspect-square"><img src="assets/food/nachos.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Nachos Supremos"/></div>
+      <div class="reveal relative group overflow-hidden rounded-2xl aspect-square"><img src="assets/food/burrito.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Burrito"/></div>
+      <div class="reveal relative group overflow-hidden rounded-2xl aspect-square"><img src="assets/food/quesadilla.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Quesadilla"/></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== DON CACTUS ===== -->
+<section class="mx-auto max-w-6xl px-5 py-16 md:py-20">
+  <div class="reveal rounded-[2rem] mesh text-cream relative overflow-hidden grid md:grid-cols-[auto_1fr] items-center gap-8 p-8 md:p-12">
+    <div class="absolute inset-0 grain opacity-[0.06]"></div>
+    <div class="relative w-40 h-40 md:w-52 md:h-52 mx-auto rounded-full bg-cream ring-4 ring-gold shadow-soft overflow-hidden grid place-items-center">
+      <img src="assets/brand/don-taco.png" alt="Don Cactus" class="w-full h-full object-cover scale-105"/>
+    </div>
+    <div class="relative">
+      <span class="text-gold font-extrabold tracking-widest uppercase text-xs">Conocé a</span>
+      <h2 class="mt-1 text-4xl md:text-5xl font-extrabold tracking-tight">Don Cactus 🌵</h2>
+      <p class="mt-4 text-cream/85 leading-relaxed max-w-lg">Nuestro anfitrión Tex-Mex: sombrero, bigote y mucha onda. Te acompaña en cada antojo y te avisa de las promos. Seguilo en nuestras redes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== INSTAGRAM ===== -->
+<section id="instagram" class="bg-sand py-16 md:py-24">
+  <div class="mx-auto max-w-6xl px-5">
+    <div class="reveal text-center max-w-2xl mx-auto mb-10">
+      <span class="text-gold-deep font-extrabold tracking-widest uppercase text-xs">@cactus_mexican_grill</span>
+      <h2 class="mt-2 text-4xl md:text-5xl font-extrabold tracking-tight text-cactus-deep">Lo último en nuestro feed</h2>
+    </div>
+    <div id="ig-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5"></div>
+    <div class="text-center mt-8">
+      <a id="ig-link" href="#" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full bg-cactus-deep px-6 py-3 font-bold text-cream hover:bg-cactus active:scale-95 transition"><i data-lucide="instagram" class="w-5 h-5"></i> Seguinos</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PEDÍ / FOOTER ===== -->
+<footer id="pedi" class="bg-cactus-ink text-cream relative overflow-hidden">
+  <div class="absolute inset-0 grain opacity-[0.05]"></div>
+  <div class="relative mx-auto max-w-6xl px-5 py-16 md:py-20">
+    <div class="grid md:grid-cols-2 gap-10">
+      <div>
+        <img src="assets/brand/logo-light.png" alt="Cactus Mexican Grill" class="h-16 w-auto object-contain rounded-xl bg-cream/95 p-2"/>
+        <p class="mt-5 text-cream/75 max-w-sm leading-relaxed">Tex-Mex a tu casa en Cochabamba. Pedí por WhatsApp o Pedí online y disfrutá donde estés.</p>
+        <div class="mt-6 flex gap-3">
+          <a id="ig-foot" href="#" target="_blank" rel="noopener" class="p-2.5 rounded-full bg-cream/10 hover:bg-cream/20 transition" aria-label="Instagram"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+          <a id="fb-foot" href="#" target="_blank" rel="noopener" class="p-2.5 rounded-full bg-cream/10 hover:bg-cream/20 transition" aria-label="Facebook"><i data-lucide="facebook" class="w-5 h-5"></i></a>
+          <a id="wa-foot" href="#" target="_blank" rel="noopener" class="p-2.5 rounded-full bg-cream/10 hover:bg-cream/20 transition" aria-label="WhatsApp"><i data-lucide="message-circle" class="w-5 h-5"></i></a>
+        </div>
+      </div>
+      <div class="md:text-right">
+        <h3 class="serif text-2xl font-extrabold text-gold">Pedí ahora</h3>
+        <div class="mt-4 flex flex-col sm:flex-row md:justify-end gap-3">
+          <a id="wa-cta" href="#" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 rounded-full bg-gold px-6 py-3.5 font-extrabold text-cactus-ink hover:-translate-y-0.5 transition shadow-soft"><i data-lucide="message-circle" class="w-5 h-5"></i> WhatsApp</a>
+          <a id="py-cta" href="#" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 rounded-full bg-cream/10 border border-cream/25 px-6 py-3.5 font-bold text-cream hover:bg-cream/20 transition"><i data-lucide="bike" class="w-5 h-5"></i> Pedí online</a>
+        </div>
+        <div class="mt-6 text-cream/70 text-sm space-y-1.5 md:flex md:flex-col md:items-end">
+          <p class="flex items-center gap-2"><i data-lucide="clock" class="w-4 h-4 text-gold"></i> Todos los días · 11:30 – 22:30</p>
+          <p class="flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-gold"></i> Delivery en Cochabamba</p>
+        </div>
+      </div>
+    </div>
+    <div class="mt-12 pt-6 border-t border-cream/10 text-center text-cream/50 text-xs">© <span id="year"></span> Cactus Mexican Grill · Cochabamba, Bolivia · Hecho con 🌵</div>
+  </div>
+</footer>
+
+<style>@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}</style>
+<script>
+/* ===== CONFIG editable — completá redes/Pedí online reales ===== */
+const CONFIG = {
+  whatsapp: '59175466779',                 // sin + ni espacios
+  whatsappMsg: 'Hola Cactus! Quiero hacer un pedido 🌵',
+  ordering: 'https://bit.ly/485KxoB',       // pedidos online (RestoTech) — el del FB
+  instagram: 'https://instagram.com/cactus_mexican_grill',
+  facebook: 'https://facebook.com/cactusmexicangrillbo',
+  igHandle: 'cactus_mexican_grill',
+};
+const waUrl = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(CONFIG.whatsappMsg)}`;
+[['wa-nav'],['wa-hero'],['wa-foot'],['wa-cta']].forEach(([id])=>{const e=document.getElementById(id); if(e) e.href=waUrl;});
+[['py-hero'],['py-cta']].forEach(([id])=>{const e=document.getElementById(id); if(e) e.href=CONFIG.ordering;});
+[['ig-link'],['ig-foot']].forEach(([id])=>{const e=document.getElementById(id); if(e) e.href=CONFIG.instagram;});
+document.getElementById('fb-foot').href = CONFIG.facebook;
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ===== MENÚ (datos reales) ===== */
+const CUR='Bs';
+const MAINS=[
+ {n:'Burrito',d:'Tortilla, arroz, frijol, proteína, guacamole, sour cream, pico de gallo.',p:{Pollo:41,Carne:45,BBQ:45}},
+ {n:'Burrito Bowl Keto',d:'Bowl de lechuga, frijol, proteína, guacamole, sour cream, pico de gallo.',p:{Pollo:37,Carne:41}},
+ {n:'Burrito Bowl',d:'Bowl de arroz, frijol, proteína, guacamole, sour cream, pico de gallo.',p:{Pollo:41,Carne:45,BBQ:45}},
+ {n:'Tacos',d:'Tortilla, lechuga, proteína, guacamole, sour cream, pico de gallo.',p:{Pollo:39,Carne:43,BBQ:43}},
+ {n:'Quesadilla',d:'Tortilla, proteína, guacamole, queso mozzarella, pico de gallo.',p:{Pollo:39,Carne:43,BBQ:43}},
+ {n:'Nachos Supremos',d:'Nachos, lomo, cheez whiz, guacamole, sour cream, tomate y cilantro.',single:48},
+ {n:'Cactus For All',d:'Quesadillas, tacos, burritos y nachos, salsa mexicana, cheez whiz, sour cream y guacamole.',p:{Pollo:125,Carne:135,BBQ:135}},
+];
+const VEG=[
+ {n:'Burrito Vegetariano',d:'Tortilla, arroz, frijol, champiñón, guacamole, sour cream, pico de gallo.',single:37},
+ {n:'Burrito Bowl Vegetariano',d:'Bowl de arroz, frijol, champiñón, guacamole, sour cream, pico de gallo.',single:34},
+];
+const TOPPINGS=[['Guacamole',4],['Salsa Mexicana',3],['Salsa Marinada',3],['Sour Cream',3],['Cebolla',3],['Queso',5],['Choclo',3],['Lechuga',3],['Jalapeños',4]];
+const EXTRAS=[['Nachos con Cheez Whiz',14],['Nachos con Guacamole',14],['Nachos con Salsa Mexicana',14],['Nachos',7]];
+const PROMOS=[
+ {t:'Martes de Tacos',d:'Tacos de pollo',price:'2x50',cur:CUR,ico:'🌮'},
+ {t:'Jueves de Burritos',d:'Burritos de pollo',price:'2x50',cur:CUR,ico:'🌯'},
+];
+
+function priceCols(it){
+  if(it.single!=null) return `<span class="price-tag text-gold-deep font-extrabold whitespace-nowrap">${it.single} ${CUR}</span>`;
+  return `<span class="price-tag font-extrabold text-cactus whitespace-nowrap text-sm">${Object.entries(it.p).map(([k,v])=>`<span class="inline-block min-w-[42px] text-right">${v}</span>`).join('<span class="text-cactus/30"> · </span>')}</span>`;
+}
+document.getElementById('mains').innerHTML = MAINS.map(it=>`
+ <div class="rounded-2xl bg-cream border border-cactus/10 shadow-card p-4 flex items-start justify-between gap-4 hover:-translate-y-0.5 transition">
+   <div><h4 class="serif font-extrabold text-cactus-deep text-lg leading-tight">${it.n}</h4><p class="text-cactus-deep/55 text-sm mt-1 leading-snug">${it.d}</p></div>
+   <div class="text-right shrink-0 pt-1">${priceCols(it)}</div>
+ </div>`).join('');
+document.getElementById('veg').innerHTML = VEG.map(it=>`
+ <div class="rounded-2xl bg-cream border border-cactus/10 shadow-card p-4 flex items-start justify-between gap-4 hover:-translate-y-0.5 transition">
+   <div><h4 class="serif font-extrabold text-cactus-deep text-lg leading-tight">${it.n}</h4><p class="text-cactus-deep/55 text-sm mt-1 leading-snug">${it.d}</p></div>
+   <div class="text-right shrink-0 pt-1">${priceCols(it)}</div>
+ </div>`).join('');
+const li=([n,p])=>`<li class="flex justify-between py-2"><span>${n}</span><span class="price-tag font-bold">${p} ${CUR}</span></li>`;
+document.getElementById('toppings').innerHTML = TOPPINGS.map(li).join('');
+document.getElementById('extras').innerHTML = EXTRAS.map(li).join('');
+document.getElementById('promos-grid').innerHTML = PROMOS.map(p=>`
+ <div class="reveal rounded-3xl mesh text-cream p-7 relative overflow-hidden shadow-soft">
+   <div class="absolute inset-0 grain opacity-[0.06]"></div>
+   <div class="relative flex items-center justify-between gap-4">
+     <div><div class="text-4xl">${p.ico}</div><h3 class="serif text-2xl font-extrabold mt-2">${p.t}</h3><p class="text-cream/75 mt-1">${p.d}</p></div>
+     <div class="text-center shrink-0"><div class="serif text-5xl font-extrabold text-gold leading-none">${p.price}</div><div class="text-gold/80 font-bold text-sm">${p.cur}</div></div>
+   </div>
+   <a href="${waUrl}" target="_blank" rel="noopener" class="relative mt-5 inline-flex items-center gap-2 rounded-full bg-gold px-5 py-2.5 font-extrabold text-cactus-ink hover:-translate-y-0.5 transition"><i data-lucide="message-circle" class="w-4 h-4"></i> Pedí esta promo</a>
+ </div>`).join('');
+
+/* ===== Instagram feed (serverless /api/ig-feed) con fallback ===== */
+const FALLBACK_IG = ['combo','tacos','nachos','burrito','quesadilla','bowl'].map(f=>`assets/food/${f}.jpg`);
+async function loadIG(){
+  const grid=document.getElementById('ig-grid');
+  let items=[];
+  try{
+    const r=await fetch('/api/ig-feed');
+    if(r.ok){const j=await r.json(); items=(j.data||[]).slice(0,6).map(m=>({img:m.media_url||m.thumbnail_url,link:m.permalink}));}
+  }catch(e){}
+  if(!items.length) items=FALLBACK_IG.map(img=>({img,link:CONFIG.instagram}));
+  grid.innerHTML=items.map(it=>`<a href="${it.link}" target="_blank" rel="noopener" class="group relative overflow-hidden rounded-xl aspect-square block"><img src="${it.img}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="Instagram Cactus"/><div class="absolute inset-0 bg-cactus-ink/0 group-hover:bg-cactus-ink/30 transition flex items-center justify-center"><i data-lucide="instagram" class="w-6 h-6 text-cream opacity-0 group-hover:opacity-100 transition"></i></div></a>`).join('');
+  if(window.lucide) lucide.createIcons();
+}
+
+/* ===== reveal on scroll + icons ===== */
+const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+loadIG();
+if(window.lucide) lucide.createIcons();
+</script>
+</body>
+</html>

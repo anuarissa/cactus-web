@@ -1,0 +1,22 @@
+{
+  "mains": [
+    { "n": "Burrito", "d": "Tortilla, arroz, frijol, proteína, guacamole, sour cream, pico de gallo.", "p": { "Pollo": 41, "Carne": 45, "BBQ": 45 } },
+    { "n": "Burrito Bowl Keto", "d": "Bowl de lechuga, frijol, proteína, guacamole, sour cream, pico de gallo.", "p": { "Pollo": 37, "Carne": 41 } },
+    { "n": "Burrito Bowl", "d": "Bowl de arroz, frijol, proteína, guacamole, sour cream, pico de gallo.", "p": { "Pollo": 41, "Carne": 45, "BBQ": 45 } },
+    { "n": "Tacos", "d": "Tortilla, lechuga, proteína, guacamole, sour cream, pico de gallo.", "p": { "Pollo": 39, "Carne": 43, "BBQ": 43 } },
+    { "n": "Quesadilla", "d": "Tortilla, proteína, guacamole, queso mozzarella, pico de gallo.", "p": { "Pollo": 39, "Carne": 43, "BBQ": 43 } },
+    { "n": "Nachos Supremos", "d": "Nachos, lomo, cheez whiz, guacamole, sour cream, tomate y cilantro.", "single": 48 },
+    { "n": "Cactus For All", "d": "Quesadillas, tacos, burritos y nachos, salsa mexicana, cheez whiz, sour cream y guacamole.", "p": { "Pollo": 125, "Carne": 135, "BBQ": 135 } }
+  ],
+  "veg": [
+    { "n": "Burrito Vegetariano", "d": "Tortilla, arroz, frijol, champiñón, guacamole, sour cream, pico de gallo.", "single": 37 },
+    { "n": "Burrito Bowl Vegetariano", "d": "Bowl de arroz, frijol, champiñón, guacamole, sour cream, pico de gallo.", "single": 34 }
+  ],
+  "toppings": [["Guacamole",4],["Salsa Mexicana",3],["Salsa Marinada",3],["Sour Cream",3],["Cebolla",3],["Queso",5],["Choclo",3],["Lechuga",3],["Jalapeños",4]],
+  "extras": [["Nachos con Cheez Whiz",14],["Nachos con Guacamole",14],["Nachos con Salsa Mexicana",14],["Nachos",7]],
+  "promos": [
+    { "t": "Martes de Tacos", "d": "Tacos de pollo", "price": "2x50", "cur": "Bs", "ico": "🌮" },
+    { "t": "Jueves de Burritos", "d": "Burritos de pollo", "price": "2x50", "cur": "Bs", "ico": "🌯" }
+  ],
+  "updatedAt": "2026-05-23"
+}
