@@ -264,7 +264,8 @@
   </aside>
 </div>
 
-<style>@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}</style>
+<style>@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.cart-bump{animation:bump .35s ease}@keyframes bump{0%,100%{transform:scale(1)}40%{transform:scale(1.16)}}</style>
 <script>
 /* ===== CONFIG editable — completá redes/Pedí online reales ===== */
 const CONFIG = {
@@ -335,23 +336,33 @@ function renderAll(d){
   document.getElementById('veg').innerHTML=(d.veg||[]).map(itemCard).join('');
   document.getElementById('toppings').innerHTML=(d.toppings||[]).map(li).join('');
   document.getElementById('extras').innerHTML=(d.extras||[]).map(li).join('');
-  document.getElementById('promos-grid').innerHTML=(d.promos||[]).map(p=>`
-   <div class="in rounded-3xl mesh text-cream relative overflow-hidden shadow-soft flex">
-     <div class="absolute inset-0 grain opacity-[0.06]"></div>
-     <div class="relative p-6 flex-1 min-w-0">
-       <h3 class="serif text-2xl font-extrabold">${esc(p.t)}</h3><p class="text-cream/75 mt-1">${esc(p.d||'')}</p>
-       <div class="serif text-4xl font-extrabold text-gold mt-3 leading-none">${esc(p.price||'')} <span class="text-lg">${esc(p.cur||CUR)}</span></div>
-       <a href="${waUrl}" target="_blank" rel="noopener" class="mt-4 inline-flex items-center gap-2 rounded-full bg-gold px-5 py-2.5 font-extrabold text-cactus-ink hover:-translate-y-0.5 transition"><i data-lucide="message-circle" class="w-4 h-4"></i> Pedí esta promo</a>
-     </div>
-     ${p.img?`<div class="relative w-28 sm:w-40 shrink-0 self-stretch"><img src="${p.img}" alt="${esc(p.t)}" class="absolute inset-0 w-full h-full object-cover" loading="lazy"></div>`:''}
-   </div>`).join('');
+  const DOW=['domingos','lunes','martes','miércoles','jueves','viernes','sábados'];
+  const today=new Date().getDay();
+  document.getElementById('promos-grid').innerHTML=(d.promos||[]).map(p=>{
+    const hasDay=p.day!==undefined&&p.day!==null&&p.day!=='';
+    const active=!hasDay||Number(p.day)===today;
+    const pp=String(p.price||'').toLowerCase().includes('x')?(Number(String(p.price).split('x')[1])||0):(Number(p.price)||0);
+    const cta=active
+      ? `<button data-add data-n="${esc(p.t)}${p.d?` (${esc(p.d)})`:''}" data-p="${pp}" class="btn mt-4 inline-flex items-center gap-2 rounded-full bg-gold px-5 py-2.5 font-extrabold text-cactus-ink hover:-translate-y-0.5"><i data-lucide="plus" class="w-4 h-4"></i> Agregar al carrito</button>`
+      : `<div class="mt-4 inline-flex items-center gap-2 rounded-full bg-cream/10 border border-cream/20 px-4 py-2 text-sm font-bold text-cream/70"><i data-lucide="clock" class="w-4 h-4"></i> Solo los ${DOW[Number(p.day)]||'días de promo'}</div>`;
+    const tag=(hasDay&&active)?`<span class="absolute top-3 right-3 z-10 bg-gold text-cactus-ink text-xs font-extrabold px-2.5 py-1 rounded-full shadow">¡HOY!</span>`:'';
+    return `<div class="in rounded-3xl mesh text-cream relative overflow-hidden shadow-soft flex ${active?'':'opacity-80'}">
+       <div class="absolute inset-0 grain opacity-[0.06]"></div>${tag}
+       <div class="relative p-6 flex-1 min-w-0">
+         <h3 class="serif text-2xl font-extrabold">${esc(p.t)}</h3><p class="text-cream/75 mt-1">${esc(p.d||'')}</p>
+         <div class="serif text-4xl font-extrabold text-gold mt-3 leading-none">${esc(p.price||'')} <span class="text-lg">${esc(p.cur||CUR)}</span></div>
+         ${cta}
+       </div>
+       ${p.img?`<div class="relative w-28 sm:w-40 shrink-0 self-stretch"><img src="${p.img}" alt="${esc(p.t)}" class="absolute inset-0 w-full h-full object-cover ${active?'':'grayscale'}" loading="lazy"></div>`:''}
+     </div>`;
+  }).join('');
   if(window.lucide) lucide.createIcons();
 }
 
 /* ----- CARRITO ----- */
 let cart=[]; try{ cart=JSON.parse(localStorage.getItem('cactus-cart')||'[]'); }catch(e){}
 function saveCart(){ try{localStorage.setItem('cactus-cart',JSON.stringify(cart));}catch(e){} }
-function addToCart(n,v,p){ const key=n+'|'+(v||''); const e=cart.find(x=>x.key===key); if(e)e.qty++; else cart.push({key,n,v:v||'',p:Number(p),qty:1}); saveCart(); renderCart(); toggleCart(true); }
+function addToCart(n,v,p){ const key=n+'|'+(v||''); const e=cart.find(x=>x.key===key); if(e)e.qty++; else cart.push({key,n,v:v||'',p:Number(p),qty:1}); saveCart(); renderCart(); const f=document.getElementById('cart-fab'); f.classList.remove('cart-bump'); void f.offsetWidth; f.classList.add('cart-bump'); }
 function chgQty(key,dq){ const e=cart.find(x=>x.key===key); if(!e)return; e.qty+=dq; if(e.qty<=0)cart=cart.filter(x=>x.key!==key); saveCart(); renderCart(); }
 function toggleCart(open){ document.getElementById('cart-ov').classList.toggle('hidden',!open); if(open&&window.lucide)lucide.createIcons(); }
 function renderCart(){

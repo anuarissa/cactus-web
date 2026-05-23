@@ -15,8 +15,8 @@
   "toppings": [["Guacamole",4],["Salsa Mexicana",3],["Salsa Marinada",3],["Sour Cream",3],["Cebolla",3],["Queso",5],["Choclo",3],["Lechuga",3],["Jalapeños",4]],
   "extras": [["Nachos con Cheez Whiz",14],["Nachos con Guacamole",14],["Nachos con Salsa Mexicana",14],["Nachos",7]],
   "promos": [
-    { "t": "Martes de Tacos", "d": "Tacos de pollo", "price": "2x50", "cur": "Bs", "ico": "🌮", "img": "assets/food/promo-tacos.png" },
-    { "t": "Jueves de Burritos", "d": "Burritos de pollo", "price": "2x50", "cur": "Bs", "ico": "🌯", "img": "assets/food/promo-burritos.png" }
+    { "t": "Martes de Tacos", "d": "Tacos de pollo", "price": "2x50", "cur": "Bs", "day": 2, "ico": "🌮", "img": "assets/food/promo-tacos.png" },
+    { "t": "Jueves de Burritos", "d": "Burritos de pollo", "price": "2x50", "cur": "Bs", "day": 4, "ico": "🌯", "img": "assets/food/promo-burritos.png" }
   ],
   "updatedAt": "2026-05-23"
 }
