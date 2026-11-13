@@ -71,8 +71,8 @@ async function start(){
   let d=null; try{ const r=await fetch('/api/content'); if(r.ok) d=await r.json(); }catch(e){}
   if(!d||!Array.isArray(d.mains)) d={mains:[],veg:[],toppings:[],extras:[],promos:[]};
   // normalizar a forma plana editable
-  const flat=arr=>(arr||[]).map(it=>({n:it.n||'',d:it.d||'',img:it.img||'',pollo:it.p?.Pollo??'',carne:it.p?.Carne??'',bbq:it.p?.BBQ??'',single:it.single??''}));
-  state={ mains:flat(d.mains), veg:flat(d.veg), toppings:(d.toppings||[]).map(x=>({n:x[0],p:x[1]})), extras:(d.extras||[]).map(x=>({n:x[0],p:x[1]})), promos:(d.promos||[]).map(p=>({t:p.t||'',d:p.d||'',price:p.price||'',cur:p.cur||'Bs',ico:p.ico||'🌮',img:p.img||'',day:(p.day??'')})) };
+  const flat=arr=>(arr||[]).map(it=>({n:it.n||'',d:it.d||'',img:it.img||'',pollo:it.p?.Pollo??'',carne:it.p?.Lomo??it.p?.Carne??'',bbq:it.p?.BBQ??'',single:it.single??'',nuevo:!!it.nuevo}));
+  state={ mains:flat(d.mains), veg:flat(d.veg), toppings:(d.toppings||[]).map(x=>({n:x[0],p:x[1],nv:!!x[2]})), extras:(d.extras||[]).map(x=>({n:x[0],p:x[1],nv:!!x[2]})), promos:(d.promos||[]).map(p=>({t:p.t||'',d:p.d||'',price:p.price||'',cur:p.cur||'Bs',ico:p.ico||'🌮',img:p.img||'',day:(p.day??'')})) };
   renderAll();
 }
 
@@ -88,7 +88,7 @@ function dish(it,sec,i){
     <textarea class="inp" rows="2" placeholder="Descripción" data-f="${sec}:${i}:d">${esc(it.d)}</textarea>
     <div class="grid grid-cols-4 gap-2">
       <input class="inp" inputmode="numeric" placeholder="Pollo" value="${it.pollo}" data-f="${sec}:${i}:pollo">
-      <input class="inp" inputmode="numeric" placeholder="Carne" value="${it.carne}" data-f="${sec}:${i}:carne">
+      <input class="inp" inputmode="numeric" placeholder="Lomo" value="${it.carne}" data-f="${sec}:${i}:carne">
       <input class="inp" inputmode="numeric" placeholder="BBQ" value="${it.bbq}" data-f="${sec}:${i}:bbq">
       <input class="inp" inputmode="numeric" placeholder="Único" value="${it.single}" data-f="${sec}:${i}:single">
     </div>
@@ -150,10 +150,10 @@ function resizeToB64(file){return new Promise(res=>{const img=new Image();const 
 
 function build(){
   const num=v=>v===''||v==null?null:Number(v);
-  const dishOut=it=>{const o={n:it.n,d:it.d}; if(it.img)o.img=it.img; if(it.single!==''&&it.single!=null){o.single=num(it.single);} else {const p={};if(it.pollo!=='')p.Pollo=num(it.pollo);if(it.carne!=='')p.Carne=num(it.carne);if(it.bbq!=='')p.BBQ=num(it.bbq);o.p=p;} return o;};
+  const dishOut=it=>{const o={n:it.n,d:it.d}; if(it.img)o.img=it.img; if(it.single!==''&&it.single!=null){o.single=num(it.single);} else {const p={};if(it.pollo!=='')p.Pollo=num(it.pollo);if(it.carne!=='')p.Lomo=num(it.carne);if(it.bbq!=='')p.BBQ=num(it.bbq);o.p=p;} if(it.nuevo)o.nuevo=true; return o;};
   return {
     mains:state.mains.map(dishOut), veg:state.veg.map(dishOut),
-    toppings:state.toppings.map(it=>[it.n,num(it.p)]), extras:state.extras.map(it=>[it.n,num(it.p)]),
+    toppings:state.toppings.map(it=>it.nv?[it.n,num(it.p),1]:[it.n,num(it.p)]), extras:state.extras.map(it=>it.nv?[it.n,num(it.p),1]:[it.n,num(it.p)]),
     promos:state.promos.map(it=>{const o={t:it.t,d:it.d,price:it.price,cur:it.cur,ico:it.ico};if(it.img)o.img=it.img;if(it.day!==''&&it.day!=null)o.day=Number(it.day);return o;}),
   };
 }

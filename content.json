@@ -1,22 +1,264 @@
 {
   "mains": [
-    { "n": "Burrito", "d": "Tortilla, arroz, frijol, proteína, guacamole, sour cream, pico de gallo.", "p": { "Pollo": 41, "Carne": 45, "BBQ": 45 }, "img": "assets/food/burrito.jpg" },
-    { "n": "Burrito Bowl Keto", "d": "Bowl de lechuga, frijol, proteína, guacamole, sour cream, pico de gallo.", "p": { "Pollo": 37, "Carne": 41 }, "img": "assets/food/keto.jpg" },
-    { "n": "Burrito Bowl", "d": "Bowl de arroz, frijol, proteína, guacamole, sour cream, pico de gallo.", "p": { "Pollo": 41, "Carne": 45, "BBQ": 45 }, "img": "assets/food/bowl.jpg" },
-    { "n": "Tacos", "d": "Tortilla, lechuga, proteína, guacamole, sour cream, pico de gallo.", "p": { "Pollo": 39, "Carne": 43, "BBQ": 43 }, "img": "assets/food/tacos.jpg" },
-    { "n": "Quesadilla", "d": "Tortilla, proteína, guacamole, queso mozzarella, pico de gallo.", "p": { "Pollo": 39, "Carne": 43, "BBQ": 43 }, "img": "assets/food/quesadilla.jpg" },
-    { "n": "Nachos Supremos", "d": "Nachos, lomo, cheez whiz, guacamole, sour cream, tomate y cilantro.", "single": 48, "img": "assets/food/nachos.jpg" },
-    { "n": "Cactus For All", "d": "Quesadillas, tacos, burritos y nachos, salsa mexicana, cheez whiz, sour cream y guacamole.", "p": { "Pollo": 125, "Carne": 135, "BBQ": 135 }, "img": "assets/food/combo.jpg" }
+    {
+      "n": "Burrito",
+      "d": "Tortilla grande, arroz cilantro-limón, frijol negro, proteína estilo fajita, vegetales salteados, guacamole, pico de gallo y crema lima.",
+      "img": "assets/food/burrito.jpg",
+      "p": {
+        "Pollo": 41,
+        "Lomo": 50,
+        "BBQ": 45
+      }
+    },
+    {
+      "n": "Burrito Bowl",
+      "d": "Arroz cilantro-limón, frijol negro, proteína estilo fajita, vegetales, choclo, lechuga, guacamole, pico, crema lima y totopos.",
+      "img": "assets/food/bowl.jpg",
+      "p": {
+        "Pollo": 44,
+        "Lomo": 52,
+        "BBQ": 45
+      }
+    },
+    {
+      "n": "Keto Bowl",
+      "d": "Lechuga, porción grande de proteína, vegetales fajita, mozzarella, guacamole, pico y crema lima. Sin arroz ni frijol.",
+      "img": "assets/food/keto.jpg",
+      "p": {
+        "Pollo": 49,
+        "Lomo": 61
+      }
+    },
+    {
+      "n": "Tacos",
+      "d": "3 tacos de tortilla suave con proteína estilo fajita, lechuga, pico de gallo, guacamole, crema lima y limón.",
+      "img": "assets/food/tacos.jpg",
+      "p": {
+        "Pollo": 42,
+        "Lomo": 50,
+        "BBQ": 43
+      }
+    },
+    {
+      "n": "Quesadilla",
+      "d": "Tortilla dorada con mozzarella fundida, proteína y vegetales fajita. Guacamole, pico y crema lima aparte.",
+      "img": "assets/food/quesadilla.jpg",
+      "p": {
+        "Pollo": 46,
+        "Lomo": 52,
+        "BBQ": 45
+      }
+    },
+    {
+      "n": "Nachos Supremos",
+      "d": "Totopos con salsa queso, proteína estilo fajita, frijol negro, guacamole, crema lima, pico de gallo y jalapeños.",
+      "img": "assets/food/nachos.jpg",
+      "p": {
+        "Pollo": 56,
+        "Lomo": 63
+      }
+    },
+    {
+      "n": "Cactus For All",
+      "d": "Para 2-3 personas: burrito, 3 tacos, quesadilla, nachos con salsa queso, guacamole, crema lima, pico y 2 Salsas Cactus.",
+      "img": "assets/food/combo.jpg",
+      "p": {
+        "Pollo": 132,
+        "Lomo": 174,
+        "BBQ": 135
+      }
+    },
+    {
+      "n": "Quesatacos",
+      "d": "3 tacos con costra de mozzarella dorada en plancha, proteína estilo fajita, pico de gallo, guacamole y crema lima.",
+      "img": "assets/food/quesatacos.jpg",
+      "p": {
+        "Pollo": 49,
+        "Lomo": 56
+      },
+      "nuevo": true
+    },
+    {
+      "n": "Nachos BBQ",
+      "d": "Totopos con salsa queso, pollo BBQ glaseado, choclo, jalapeños, crema lima y pico de gallo.",
+      "img": "assets/food/nachos-bbq.jpg",
+      "single": 52,
+      "nuevo": true
+    },
+    {
+      "n": "Fajita Bowl Mixto",
+      "d": "Arroz cilantro-limón con pollo Y lomo estilo fajita, mucho vegetal salteado, guacamole, pico y crema lima.",
+      "single": 52,
+      "img": "assets/food/fajita-bowl.jpg",
+      "nuevo": true
+    },
+    {
+      "n": "Combo Cactus Box",
+      "d": "Burrito de pollo + nachos con salsa queso + Ice Tea o Limonada 500 ml.",
+      "single": 49,
+      "img": "assets/food/combo-box.jpg",
+      "nuevo": true
+    }
   ],
   "veg": [
-    { "n": "Burrito Vegetariano", "d": "Tortilla, arroz, frijol, champiñón, guacamole, sour cream, pico de gallo.", "single": 37, "img": "assets/food/burrito.jpg" },
-    { "n": "Burrito Bowl Vegetariano", "d": "Bowl de arroz, frijol, champiñón, guacamole, sour cream, pico de gallo.", "single": 34, "img": "assets/food/bowl.jpg" }
+    {
+      "n": "Burrito Vegetariano",
+      "d": "Champiñones y vegetales salteados estilo fajita, arroz cilantro-limón, frijol negro, guacamole, pico y crema lima.",
+      "single": 41,
+      "img": "assets/food/burrito.jpg"
+    },
+    {
+      "n": "Burrito Bowl Vegetariano",
+      "d": "Arroz cilantro-limón, champiñones y vegetales fajita, frijol negro, choclo, lechuga, guacamole, pico y crema lima.",
+      "single": 43,
+      "img": "assets/food/bowl.jpg"
+    }
   ],
-  "toppings": [["Guacamole",4],["Salsa Mexicana",3],["Salsa Marinada",3],["Sour Cream",3],["Cebolla",3],["Queso",5],["Choclo",3],["Lechuga",3],["Jalapeños",4]],
-  "extras": [["Nachos con Cheez Whiz",14],["Nachos con Guacamole",14],["Nachos con Salsa Mexicana",14],["Nachos",7]],
+  "toppings": [
+    [
+      "Guacamole",
+      4
+    ],
+    [
+      "Salsa Mexicana",
+      3
+    ],
+    [
+      "Sour Cream",
+      4
+    ],
+    [
+      "Salsa Queso",
+      5,
+      1
+    ],
+    [
+      "Vegetales Fajita",
+      4,
+      1
+    ],
+    [
+      "Queso",
+      7
+    ],
+    [
+      "Jalapeños",
+      6
+    ],
+    [
+      "Choclo",
+      4
+    ],
+    [
+      "Cebolla",
+      3
+    ],
+    [
+      "Lechuga",
+      3
+    ],
+    [
+      "Salsa Cactus Picante",
+      2
+    ]
+  ],
+  "extras": [
+    [
+      "Nachos",
+      10
+    ],
+    [
+      "Nachos con Salsa Queso",
+      19
+    ],
+    [
+      "Nachos con Guacamole",
+      19
+    ],
+    [
+      "Nachos con Salsa Mexicana",
+      19
+    ],
+    [
+      "Ice Tea 500 ml",
+      10,
+      1
+    ],
+    [
+      "Limonada 500 ml",
+      10,
+      1
+    ],
+    [
+      "Coca-Cola 500 ml",
+      12,
+      1
+    ],
+    [
+      "Coca-Cola Zero 500 ml",
+      12,
+      1
+    ],
+    [
+      "Sprite 500 ml",
+      12,
+      1
+    ],
+    [
+      "Sprite Zero 500 ml",
+      12,
+      1
+    ],
+    [
+      "Fanta 500 ml",
+      12,
+      1
+    ],
+    [
+      "Fanta Zero 500 ml",
+      12,
+      1
+    ],
+    [
+      "Coca-Cola 2 L",
+      22,
+      1
+    ],
+    [
+      "Coca-Cola Zero 2 L",
+      22,
+      1
+    ],
+    [
+      "Sprite 2 L",
+      22,
+      1
+    ],
+    [
+      "Fanta 2 L",
+      22,
+      1
+    ]
+  ],
   "promos": [
-    { "t": "Martes de Tacos", "d": "Tacos de pollo", "price": "2x50", "cur": "Bs", "day": 2, "ico": "🌮", "img": "assets/food/promo-tacos.png" },
-    { "t": "Jueves de Burritos", "d": "Burritos de pollo", "price": "2x50", "cur": "Bs", "day": 4, "ico": "🌯", "img": "assets/food/promo-burritos.png" }
+    {
+      "t": "Martes de Tacos",
+      "d": "Tacos de pollo",
+      "price": "2x50",
+      "cur": "Bs",
+      "day": 2,
+      "ico": "🌮",
+      "img": "assets/food/promo-tacos.png"
+    },
+    {
+      "t": "Jueves de Burritos",
+      "d": "Burritos de pollo",
+      "price": "2x50",
+      "cur": "Bs",
+      "day": 4,
+      "ico": "🌯",
+      "img": "assets/food/promo-burritos.png"
+    }
   ],
-  "updatedAt": "2026-05-23"
+  "updatedAt": "2026-10-27"
 }

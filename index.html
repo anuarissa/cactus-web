@@ -125,7 +125,7 @@
       <span class="text-gold font-extrabold tracking-widest uppercase text-xs">Nosotros</span>
       <h2 class="mt-2 text-4xl md:text-5xl font-extrabold tracking-tight">Cocina Tex-Mex,<br>pensada para delivery</h2>
       <p class="mt-5 text-cream/80 leading-relaxed">Somos una <b>dark kitchen</b> en Cochabamba: cocinamos enfocados 100% en llevarte el antojo a casa. Porciones honestas, ingredientes frescos y ese sabor Tex-Mex que da ganas con solo verlo.</p>
-      <p class="mt-3 text-cream/80 leading-relaxed">Elegí tu proteína — <b class="text-gold">Pollo, Carne o BBQ Chicken</b> — y nosotros nos encargamos del resto.</p>
+      <p class="mt-3 text-cream/80 leading-relaxed">Elegí tu proteína — <b class="text-gold">Pollo, Lomo o BBQ Chicken</b> — y nosotros nos encargamos del resto.</p>
     </div>
   </div>
 </section>
@@ -136,7 +136,7 @@
     <div>
       <span class="text-gold-deep font-extrabold tracking-widest uppercase text-xs">El menú</span>
       <h2 class="mt-2 text-4xl md:text-5xl font-extrabold tracking-tight text-cactus-deep">Nuestro menú</h2>
-      <p class="mt-2 text-cactus-deep/60">Precios en Bs. Proteína a elección: Pollo · Carne · BBQ Chicken.</p>
+      <p class="mt-2 text-cactus-deep/60">Precios en Bs. Proteína a elección: Pollo · Lomo · BBQ Chicken.</p>
     </div>
     <a href="menu-cactus.pdf" target="_blank" class="inline-flex items-center gap-2 rounded-full border-2 border-cactus px-5 py-2.5 font-bold text-cactus hover:bg-cactus hover:text-cream active:scale-95 transition">
       <i data-lucide="download" class="w-4 h-4"></i> Descargar PDF
@@ -147,7 +147,7 @@
     <div class="lg:col-span-2 reveal">
       <h3 class="serif text-2xl font-extrabold text-cactus-deep mb-4">Especialidades</h3>
       <div class="grid gap-3 px-1 mb-3 text-[11px] font-bold uppercase tracking-wider text-cactus-deep/45 grid-cols-[1fr_auto]">
-        <span>Plato</span><span class="hidden sm:block text-right">Pollo · Carne · BBQ</span>
+        <span>Plato</span><span class="hidden sm:block text-right">Pollo · Lomo · BBQ</span>
       </div>
       <div id="mains" class="space-y-3"></div>
 
@@ -161,7 +161,7 @@
         <ul id="toppings" class="text-sm divide-y divide-cactus/5"></ul>
       </div>
       <div class="rounded-2xl bg-cactus-deep text-cream shadow-card p-5">
-        <h3 class="serif text-xl font-extrabold text-gold mb-3">Extras</h3>
+        <h3 class="serif text-xl font-extrabold text-gold mb-3">Extras y bebidas</h3>
         <ul id="extras" class="text-sm divide-y divide-cream/10"></ul>
       </div>
     </div>
@@ -287,25 +287,30 @@ document.getElementById('year').textContent = new Date().getFullYear();
 const CUR='Bs';
 const DEFAULTS={
  mains:[
-  {n:'Burrito',d:'Tortilla, arroz, frijol, proteína, guacamole, sour cream, pico de gallo.',p:{Pollo:41,Carne:45,BBQ:45}},
-  {n:'Burrito Bowl Keto',d:'Bowl de lechuga, frijol, proteína, guacamole, sour cream, pico de gallo.',p:{Pollo:37,Carne:41}},
-  {n:'Burrito Bowl',d:'Bowl de arroz, frijol, proteína, guacamole, sour cream, pico de gallo.',p:{Pollo:41,Carne:45,BBQ:45}},
-  {n:'Tacos',d:'Tortilla, lechuga, proteína, guacamole, sour cream, pico de gallo.',p:{Pollo:39,Carne:43,BBQ:43}},
-  {n:'Quesadilla',d:'Tortilla, proteína, guacamole, queso mozzarella, pico de gallo.',p:{Pollo:39,Carne:43,BBQ:43}},
-  {n:'Nachos Supremos',d:'Nachos, lomo, cheez whiz, guacamole, sour cream, tomate y cilantro.',single:48},
-  {n:'Cactus For All',d:'Quesadillas, tacos, burritos y nachos, salsa mexicana, cheez whiz, sour cream y guacamole.',p:{Pollo:125,Carne:135,BBQ:135}},
+  {n:"Burrito",d:"Tortilla grande, arroz cilantro-limón, frijol negro, proteína estilo fajita, vegetales salteados, guacamole, pico de gallo y crema lima.",p:{Pollo:41,Lomo:50,BBQ:45}},
+  {n:"Burrito Bowl",d:"Arroz cilantro-limón, frijol negro, proteína estilo fajita, vegetales, choclo, lechuga, guacamole, pico, crema lima y totopos.",p:{Pollo:44,Lomo:52,BBQ:45}},
+  {n:"Keto Bowl",d:"Lechuga, porción grande de proteína, vegetales fajita, mozzarella, guacamole, pico y crema lima. Sin arroz ni frijol.",p:{Pollo:49,Lomo:61}},
+  {n:"Tacos",d:"3 tacos de tortilla suave con proteína estilo fajita, lechuga, pico de gallo, guacamole, crema lima y limón.",p:{Pollo:42,Lomo:50,BBQ:43}},
+  {n:"Quesadilla",d:"Tortilla dorada con mozzarella fundida, proteína y vegetales fajita. Guacamole, pico y crema lima aparte.",p:{Pollo:46,Lomo:52,BBQ:45}},
+  {n:"Nachos Supremos",d:"Totopos con salsa queso, proteína estilo fajita, frijol negro, guacamole, crema lima, pico de gallo y jalapeños.",p:{Pollo:56,Lomo:63}},
+  {n:"Cactus For All",d:"Para 2-3 personas: burrito, 3 tacos, quesadilla, nachos con salsa queso, guacamole, crema lima, pico y 2 Salsas Cactus.",p:{Pollo:132,Lomo:174,BBQ:135}},
+  {n:"Quesatacos",d:"3 tacos con costra de mozzarella dorada en plancha, proteína estilo fajita, pico de gallo, guacamole y crema lima.",p:{Pollo:49,Lomo:56},nuevo:true},
+  {n:"Nachos BBQ",d:"Totopos con salsa queso, pollo BBQ glaseado, choclo, jalapeños, crema lima y pico de gallo.",single:52,nuevo:true},
+  {n:"Fajita Bowl Mixto",d:"Arroz cilantro-limón con pollo Y lomo estilo fajita, mucho vegetal salteado, guacamole, pico y crema lima.",single:52,nuevo:true},
+  {n:"Combo Cactus Box",d:"Burrito de pollo + nachos con salsa queso + Ice Tea o Limonada 500 ml.",single:49,nuevo:true},
  ],
  veg:[
-  {n:'Burrito Vegetariano',d:'Tortilla, arroz, frijol, champiñón, guacamole, sour cream, pico de gallo.',single:37},
-  {n:'Burrito Bowl Vegetariano',d:'Bowl de arroz, frijol, champiñón, guacamole, sour cream, pico de gallo.',single:34},
+  {n:"Burrito Vegetariano",d:"Champiñones y vegetales salteados estilo fajita, arroz cilantro-limón, frijol negro, guacamole, pico y crema lima.",single:41},
+  {n:"Burrito Bowl Vegetariano",d:"Arroz cilantro-limón, champiñones y vegetales fajita, frijol negro, choclo, lechuga, guacamole, pico y crema lima.",single:43},
  ],
- toppings:[['Guacamole',4],['Salsa Mexicana',3],['Salsa Marinada',3],['Sour Cream',3],['Cebolla',3],['Queso',5],['Choclo',3],['Lechuga',3],['Jalapeños',4]],
- extras:[['Nachos con Cheez Whiz',14],['Nachos con Guacamole',14],['Nachos con Salsa Mexicana',14],['Nachos',7]],
+ toppings:[["Guacamole",4],["Salsa Mexicana",3],["Sour Cream",4],["Salsa Queso",5,1],["Vegetales Fajita",4,1],["Queso",7],["Jalapeños",6],["Choclo",4],["Cebolla",3],["Lechuga",3],["Salsa Cactus Picante",2]],
+ extras:[["Nachos",10],["Nachos con Salsa Queso",19],["Nachos con Guacamole",19],["Nachos con Salsa Mexicana",19],["Ice Tea 500 ml",10,1],["Limonada 500 ml",10,1],["Coca-Cola 500 ml",12,1],["Coca-Cola Zero 500 ml",12,1],["Sprite 500 ml",12,1],["Sprite Zero 500 ml",12,1],["Fanta 500 ml",12,1],["Fanta Zero 500 ml",12,1],["Coca-Cola 2 L",22,1],["Coca-Cola Zero 2 L",22,1],["Sprite 2 L",22,1],["Fanta 2 L",22,1]],
  promos:[
-  {t:'Martes de Tacos',d:'Tacos de pollo',price:'2x50',cur:CUR,ico:'🌮'},
-  {t:'Jueves de Burritos',d:'Burritos de pollo',price:'2x50',cur:CUR,ico:'🌯'},
+  {t:"Martes de Tacos",d:"Tacos de pollo",price:"2x50",cur:CUR,ico:"🌮"},
+  {t:"Jueves de Burritos",d:"Burritos de pollo",price:"2x50",cur:CUR,ico:"🌯"},
  ],
 };
+const NEWB='<span class="ml-1.5 align-middle inline-block rounded-full bg-gold text-cactus-ink text-[10px] font-extrabold px-2 py-0.5 tracking-wide">★ NEW</span>';
 const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
 function priceCols(it){
   if(it.single!=null && it.single!=='') return `<span class="price-tag text-gold-deep font-extrabold whitespace-nowrap">${it.single} ${CUR}</span>`;
@@ -324,13 +329,13 @@ function itemCard(it){
   return `<div class="rounded-2xl bg-cream border border-cactus/10 shadow-card p-3.5 flex gap-3.5 hover:-translate-y-0.5 transition">
    ${thumb}
    <div class="flex-1 min-w-0">
-     <div class="flex items-start justify-between gap-3"><h4 class="serif font-extrabold text-cactus-deep text-lg leading-tight">${esc(it.n)}</h4><div class="shrink-0 pt-0.5">${priceCols(it)}</div></div>
+     <div class="flex items-start justify-between gap-3"><h4 class="serif font-extrabold text-cactus-deep text-lg leading-tight">${esc(it.n)}${it.nuevo?NEWB:''}</h4><div class="shrink-0 pt-0.5">${priceCols(it)}</div></div>
      <p class="text-cactus-deep/55 text-sm mt-0.5 leading-snug">${esc(it.d||'')}</p>
      ${addBtns(it)}
    </div>
  </div>`;
 }
-const li=([n,p])=>`<li class="flex justify-between items-center py-2 gap-3"><span>${esc(n)}</span><span class="flex items-center gap-2"><span class="price-tag font-bold whitespace-nowrap">${p} ${CUR}</span><button data-add data-n="${esc(n)}" data-p="${p}" class="btn w-6 h-6 rounded-full bg-gold text-cactus-ink font-bold leading-none grid place-items-center shrink-0" title="Agregar">＋</button></span></li>`;
+const li=([n,p,nv])=>`<li class="flex justify-between items-center py-2 gap-3"><span>${esc(n)}${nv?NEWB:''}</span><span class="flex items-center gap-2"><span class="price-tag font-bold whitespace-nowrap">${p} ${CUR}</span><button data-add data-n="${esc(n)}" data-p="${p}" class="btn w-6 h-6 rounded-full bg-gold text-cactus-ink font-bold leading-none grid place-items-center shrink-0" title="Agregar">＋</button></span></li>`;
 function renderAll(d){
   document.getElementById('mains').innerHTML=(d.mains||[]).map(itemCard).join('');
   document.getElementById('veg').innerHTML=(d.veg||[]).map(itemCard).join('');
